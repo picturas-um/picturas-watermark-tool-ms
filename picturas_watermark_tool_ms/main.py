@@ -8,7 +8,7 @@ from .watermark_result_message import WatermarkResultMessage
 from .watermark_tool import WatermarkTool
 
 # Logging setup
-LOG_FORMAT = "%(levelname) -10s %(asctime)s %(name) -30s %(funcName) -35s %(lineno) -5d: %(message)s"
+LOG_FORMAT = '%(asctime)s [%(levelname)s] %(message)s'
 logging.basicConfig(level=PICTURAS_LOG_LEVEL, format=LOG_FORMAT)
 
 LOGGER = logging.getLogger(__name__)

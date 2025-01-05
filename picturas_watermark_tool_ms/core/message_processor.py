@@ -65,13 +65,15 @@ class MessageProcessor:
             body=result_msg.model_dump_json(),
         )
 
+        logging.info("Published result of '%s' to '%s'", result_msg.correlationId, RABBITMQ_RESULTS_ROUTING_KEY)
+
     def handle_request_message(self, ch, delivery_tag, body):
         """
         Handle a request message received from the queue.
         This function will parse the message, apply the tool, and send the response through the 'results' queue.
         """
         try:
-            request_msg = self.request_msg_class.model_validate_json(body)
+            request_msg: RequestMessage = self.request_msg_class.model_validate_json(body)
             LOGGER.debug("Request parsed: %s", request_msg)
 
             tool_result: Any = None
@@ -85,7 +87,8 @@ class MessageProcessor:
                 LOGGER.error("Error: %s", e)
 
             time_elapsed = time.time() - start_ts
-            LOGGER.info("Processing took %f seconds", time_elapsed)
+
+            LOGGER.info("Processed request '%s' (took %.3f s)", request_msg.messageId, time_elapsed)
 
             ch.connection.add_callback_threadsafe(
                 functools.partial(self.send_response_message, ch, request_msg, tool_result, exception, time_elapsed))
