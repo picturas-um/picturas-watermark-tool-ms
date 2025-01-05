@@ -15,7 +15,7 @@
             "name": "Publisher (Example)",
             "type": "debugpy",
             "request": "launch",
-            "module": "examples.publisher.publisher"
+            "module": "usage_example.publisher.publisher"
         }
     ]
 }

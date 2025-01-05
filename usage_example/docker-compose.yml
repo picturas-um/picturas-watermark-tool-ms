@@ -1,0 +1,46 @@
+services:
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "15672:15672" # Optional. Makes RabbitMQ dashboard available on host: active for debug / management purposes
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq/
+      - rabbitmq-logs:/var/log/rabbitmq/
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 5s
+      timeout: 30s
+
+  publisher-example:
+    build: ./publisher/
+    container_name: publisher-example
+    restart: always
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - PICTURAS_SRC_FOLDER=/images/src/
+      - PICTURAS_OUT_FOLDER=/images/out/
+    volumes:
+      - ./images/src/:/images/src/
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  watermark-tool-ms:
+    build: ..
+    container_name: watermark-tool-ms
+    restart: always
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - PICTURAS_LOG_LEVEL=INFO  # change / remove in production
+    volumes:
+      - ./images/src/:/images/src/
+      - ./images/out/:/images/out/
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+volumes:
+  rabbitmq-data: 
+  rabbitmq-logs:
