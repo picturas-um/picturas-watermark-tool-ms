@@ -18,6 +18,8 @@ FROM python:3.13-slim AS runtime
 ENV VIRTUAL_ENV=/app/.venv \
     PATH="/app/.venv/bin:$PATH"
 
+ENV PICTURAS_LOG_LEVEL=WARN
+
 COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 COPY picturas_watermark_tool_ms ./picturas_watermark_tool_ms
