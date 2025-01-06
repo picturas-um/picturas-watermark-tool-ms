@@ -13,9 +13,9 @@ services:
       interval: 5s
       timeout: 30s
 
-  publisher-example:
-    build: ./publisher/
-    container_name: publisher-example
+  request-mocker:
+    build: ./request_mocker/
+    container_name: request-mocker
     restart: always
     environment:
       - RABBITMQ_HOST=rabbitmq

@@ -12,10 +12,10 @@
             "envFile": "${workspaceFolder}/.env"
         },
         {
-            "name": "Publisher (Example)",
+            "name": "Request Mocker",
             "type": "debugpy",
             "request": "launch",
-            "module": "usage_example.publisher.publisher"
+            "module": "usage_example.request_mocker.main"
         }
     ]
 }
