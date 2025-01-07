@@ -1,6 +1,10 @@
 # PictuRAS Watermark Tool MS
 
-This project implements the watermark tool microservice for **PictuRAS**. It processes image watermarking requests asynchronously using a message queue, and was designed with modularity and reusability in mind.
+This project implements the watermark tool microservice for **PictuRAS**.
+
+[![Docker Hub](https://img.shields.io/docker/pulls/prcsousa/picturas-watermark-tool-ms)](https://hub.docker.com/r/prcsousa/picturas-watermark-tool-ms)
+
+Processes image watermarking requests asynchronously using a message queue.
 
 It is based on three main services:
 
@@ -8,7 +12,7 @@ It is based on three main services:
 2. request mocker: publishes mock requests to the queue.
 3. the watermark tool microservice: processes the requests and publishes results.
 
-> This project includes a "request mocker" under `usage_example` folder to ease development. The requests should eventually be produced by a real microservice (e.g., a project management service).
+> This project includes a `request mocker` under `usage_example` folder to ease development. The requests should eventually be produced by a _real microservice_ (e.g., a project management service).
 
 In detail, after a request is sent, one of the watermark tool microservices reads it from their queue, applies the watermark, and saves the watermarked image. After having processed a given request, a `ResultMessage` is sent to `picturas.tools` _exchange_ under the `results` _routing key_.
 
